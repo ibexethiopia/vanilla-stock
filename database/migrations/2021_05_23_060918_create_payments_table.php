@@ -19,7 +19,7 @@ class CreatePaymentsTable extends Migration
 			$table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade')->onUpdate('cascade');
 			$table->string('payment_type', 20)->default('out');
 			$table->string('payment_number')->nullable()->default(null);
-			$table->date('date');
+			$table->dateTime('date');
 			$table->double('amount')->default(0);
 			$table->double('unused_amount')->default(0);
 			$table->double('paid_amount')->default(0);

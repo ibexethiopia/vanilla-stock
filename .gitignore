@@ -1,0 +1,81 @@
+# Laravel specific files
+
+/vendor/
+/node_modules/
+
+/public/storage
+/public/hot
+/public/*.key
+
+/storage/*.key
+/storage/*.log
+/storage/*.csv
+/storage/*.xml
+/storage/*.pdf
+/storage/*.jpg
+/storage/*.png
+/storage/*.jpeg
+/storage/*.gif
+/storage/*.json
+/storage/*.xls
+/storage/*.xlsx
+/storage/*.docx
+/storage/*.pptx
+
+/storage/app/public
+/storage/framework/cache/data
+/storage/logs
+/storage/debugbar
+
+# Prevent upload of .env file, which contains sensitive environment variables
+.env
+.env.backup
+.env.local
+.env.testing
+.env.example
+
+# Prevent IDE helpers and various editor files from being tracked
+.phpunit.result.cache
+/.idea
+/.vscode
+/.phpstorm.meta.php
+
+# Prevent coverage reports from being tracked
+coverage/
+
+# Ignore compiled classes
+/vendor/composer/autoload_classmap.php
+/vendor/composer/autoload_static.php
+/vendor/composer/autoload_files.php
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+*.log
+*.swp
+*.swo
+
+# Ignore cached config and routes
+/bootstrap/cache/*.php
+
+# Ignore composer.lock (optional, depending on your team preference)
+composer.lock
+
+# Ignore npm/yarn lock files (optional, depending on your team preference)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Prevent Laravel Mix or Vite-related files from being committed
+/public/mix-manifest.json
+/public/hot
+/public/vite-manifest.json
+
+# Ignore backup files and temp files
+*.bak
+*.tmp
+*.temp
+
+# Ignore PHPUnit results and coverage files
+.phpunit.result.cache
+coverage/
