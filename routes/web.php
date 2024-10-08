@@ -23,7 +23,7 @@ ApiRoute::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     ApiRoute::get('warehouses', ['as' => 'api.warehouses.index', 'uses' => 'WarehouseController@index']);
     ApiRoute::get('payment-modes', ['as' => 'api.payment-modes.index', 'uses' => 'PaymentModeController@index']);
 
-    ApiRoute::group(['middleware' => ['api.auth.check']], function () {
+    ApiRoute::group(['middleware' => ['api.auth.check','api.check.token']], function () {
         ApiRoute::post('dashboard', ['as' => 'api.extra.dashboard', 'uses' => 'AuthController@dashboard']);
         ApiRoute::post('upload-file', ['as' => 'api.extra.upload-file', 'uses' => 'AuthController@uploadFile']);
         ApiRoute::post('profile', ['as' => 'api.extra.profile', 'uses' => 'AuthController@profile']);
@@ -40,7 +40,7 @@ ApiRoute::group(['namespace' => 'App\Http\Controllers\Api'], function () {
     });
 
     // Routes Accessable to thouse user who have permissions realted to route
-    ApiRoute::group(['middleware' => ['api.permission.check', 'api.auth.check', 'license-expire']], function () {
+    ApiRoute::group(['middleware' => ['api.permission.check', 'api.auth.check', 'api.check.token','license-expire']], function () {
         $options = [
             'as' => 'api'
         ];
