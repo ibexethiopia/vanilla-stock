@@ -30,16 +30,16 @@ class DatabaseSeeder extends Seeder
             $this->call(RolesTableSeeder::class);
             $this->call(UsersTableSeeder::class);
 
-            Common::createAllCompaniesWalkInCustomer();
+            // Common::createAllCompaniesWalkInCustomer();
 
-            $this->call(BrandsTableSeeder::class);
-            $this->call(CategoryTableSeeder::class);
-            $this->call(ProductTableSeeder::class);
-            $this->call(StockAdjustmentTableSeeder::class);
-            $this->call(OrdersTableSeeder::class);
-            $this->call(PaymentsTableSeeder::class);
-            $this->call(ExpenseTableSeeder::class);
-            $this->call(ExpenseTableSeeder::class);
+            // $this->call(BrandsTableSeeder::class);
+            // $this->call(CategoryTableSeeder::class);
+            // $this->call(ProductTableSeeder::class);
+            // $this->call(StockAdjustmentTableSeeder::class);
+            // $this->call(OrdersTableSeeder::class);
+            // $this->call(PaymentsTableSeeder::class);
+            // $this->call(ExpenseTableSeeder::class);
+            // $this->call(ExpenseTableSeeder::class);
 
             $this->call(FrontWebsiteSettingsDatabaseSeeder::class);
             $this->call(FrontProductCardDatabaseSeeder::class);
