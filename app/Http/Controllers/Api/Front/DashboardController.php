@@ -23,17 +23,17 @@ class DashboardController extends ApiBaseController
     public function dashboard(Request $request)
     {
         $storeSlug = $request->warehouse;
-        $warehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
+        // $warehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
 
-        if (!$warehouse) {
-            throw new ApiException("Not a valid warehouse");
-        }
+        // if (!$warehouse) {
+        //     throw new ApiException("Not a valid warehouse");
+        // }
 
         $user = auth('api_front')->user();
         $totalOrder = Order::withoutGlobalScope(CompanyScope::class)
             ->where('order_type', '=', 'online-orders')
             ->where('user_id', '=', $user->id)
-            ->where('warehouse_id', '=', $warehouse->id)
+            // ->where('warehouse_id', '=', $warehouse->id)
             ->count();
 
         $pendingOrder = Order::withoutGlobalScope(CompanyScope::class)
@@ -41,7 +41,7 @@ class DashboardController extends ApiBaseController
             ->where('order_status', '=', 'ordered')
             ->where('cancelled', '!=', 1)
             ->where('user_id', '=', $user->id)
-            ->where('warehouse_id', '=', $warehouse->id)
+            // ->where('warehouse_id', '=', $warehouse->id)
             ->count();
 
         $processingOrder = Order::withoutGlobalScope(CompanyScope::class)
@@ -49,7 +49,7 @@ class DashboardController extends ApiBaseController
             ->where('order_status', '=', 'processing')
             ->where('cancelled', '!=', 1)
             ->where('user_id', '=', $user->id)
-            ->where('warehouse_id', '=', $warehouse->id)
+            // ->where('warehouse_id', '=', $warehouse->id)
             ->count();
 
         $completedOrders = Order::withoutGlobalScope(CompanyScope::class)
@@ -57,14 +57,14 @@ class DashboardController extends ApiBaseController
             ->where('order_status', '=', 'delivered')
             ->where('cancelled', '!=', 1)
             ->where('user_id', '=', $user->id)
-            ->where('warehouse_id', '=', $warehouse->id)
+            // ->where('warehouse_id', '=', $warehouse->id)
             ->count();
 
         $recentOrders = Order::withoutGlobalScope(CompanyScope::class)
             ->with(['user:id,name,email,address', 'warehouse:id,name,address', 'items', 'items.product:id,name', 'shippingAddress'])
             ->where('order_type', '=', 'online-orders')
             ->where('user_id', '=', $user->id)
-            ->where('warehouse_id', '=', $warehouse->id)
+            // ->where('warehouse_id', '=', $warehouse->id)
             ->take(10)
             ->get();
 
@@ -79,16 +79,16 @@ class DashboardController extends ApiBaseController
 
     public function orders(UserOrderRequest $request)
     {
-        $storeSlug = $request->warehouse;
-        $warehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
+        // $storeSlug = $request->warehouse;
+        // $warehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
 
-        if (!$warehouse) {
-            throw new ApiException("Not a valid warehouse");
-        }
+        // if (!$warehouse) {
+        //     throw new ApiException("Not a valid warehouse");
+        // }
 
         $user = auth('api_front')->user();
-        $orders = Order::with(['user:id,name,email,address', 'warehouse:id,name,address', 'items', 'items.product:id,name', 'shippingAddress'])
-            ->where('orders.warehouse_id', '=', $warehouse->id);
+        $orders = Order::with(['user:id,name,email,address', 'warehouse:id,name,address', 'items', 'items.product:id,name', 'shippingAddress']);
+            // ->where('orders.warehouse_id', '=', $warehouse->id);
 
 
         // Order Status Filter

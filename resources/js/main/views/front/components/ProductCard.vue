@@ -5,6 +5,7 @@
                 <img :src="currentProduct.image_url" class="img-fit" />
             </a>
         </div>
+        <pre>{{ product }}</pre>
         <div class="product-bottom">
             <div>
                 <span class="product-category">{{ currentProduct.category.name }}</span>
@@ -138,6 +139,7 @@ import { message } from "ant-design-vue";
 import { filter, forEach } from "lodash-es";
 import cart from "../../../../common/composable/cart";
 import { getSalesPriceWithTax } from "../../../../common/scripts/functions";
+import products from "../../../router/products";
 
 export default {
     props: ["product", "currency"],

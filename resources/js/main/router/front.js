@@ -13,7 +13,7 @@ export default [
         component: Front,
         children: [
             {
-                path: '/store/:warehouse',
+                path: '/store',
                 component: Home,
                 name: 'front.homepage',
                 meta: {
@@ -23,7 +23,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/categories/:slug*',
+                path: '/store/categories/:slug*',
                 component: Categories,
                 name: 'front.categories',
                 meta: {
@@ -33,7 +33,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/dashboard',
+                path: '/store/dashboard',
                 component: Dashboard,
                 name: 'front.dashboard',
                 meta: {
@@ -43,7 +43,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/profile',
+                path: '/store/profile',
                 component: Profile,
                 name: 'front.profile',
                 meta: {
@@ -53,7 +53,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/orders',
+                path: '/store/orders',
                 component: Orders,
                 name: 'front.orders',
                 meta: {
@@ -63,7 +63,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/checkout',
+                path: '/store/checkout',
                 component: Checkout,
                 name: 'front.checkout',
                 meta: {
@@ -73,7 +73,7 @@ export default [
                 }
             },
             {
-                path: '/store/:warehouse/checkout-success/:uniqueId',
+                path: '/store/checkout-success/:uniqueId',
                 component: CheckoutSuccess,
                 name: 'front.checkout.success',
                 meta: {
