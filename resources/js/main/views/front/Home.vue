@@ -65,9 +65,10 @@
 
                     <div class="prdoct-card-list-body mt-20 mb-50">
                         <a-row :gutter="[30, 30]">
+
+
                             <a-col v-for="product in featuredProducts" :xs="24" :sm="12" :md="8" :lg="6" :xl="4"
                                 :key="product.id">
-        <pre>{{ product }}</pre>
 
                                 <ProductCard :product="product" :key="product.id" :currency="currency" />
                             </a-col>

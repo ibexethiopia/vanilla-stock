@@ -7,7 +7,7 @@
                         <router-link
                             :to="{
                                 name: 'front.homepage',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.home") }}
@@ -17,7 +17,7 @@
                         <router-link
                             :to="{
                                 name: 'front.dashboard',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.dashboard") }}
@@ -27,7 +27,7 @@
                         <router-link
                             :to="{
                                 name: 'front.orders',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.my_orders") }}
@@ -99,10 +99,10 @@
                                                 <router-link
                                                     :to="{
                                                         name: 'front.homepage',
-                                                        params: {
-                                                            warehouse:
-                                                                frontWarehouse.slug,
-                                                        },
+                                                        // params: {
+                                                        //     warehouse:
+                                                        //         frontWarehouse.slug,
+                                                        // },
                                                     }"
                                                 >
                                                     <RollbackOutlined />

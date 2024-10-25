@@ -72,8 +72,8 @@ class FrontWebsiteSettings extends BaseModel
         if ($this->featured_products && count($this->featured_products) > 0) {
             $products = Product::withoutGlobalScope(CompanyScope::class)
                 ->withoutGlobalScope('current_warehouse')
-                ->select('id', 'name', 'slug', 'image', 'description', 'category_id', 'brand_id')
-                ->with(['details:id,product_id,sales_price,mrp,tax_id,sales_tax_type', 'details.tax:id,rate', 'brand:id,name,image', 'category:id,name,image'])
+                ->select('id', 'name', 'slug', 'image', 'description', 'category_id', 'brand_id','warehouse_id')
+                ->with(['details:id,product_id,sales_price,mrp,tax_id,sales_tax_type,warehouse_id', 'details.tax:id,rate', 'brand:id,name,image', 'category:id,name,image'])
                 ->whereIn('products.id', $this->featured_products)
                 ->get();
         }
