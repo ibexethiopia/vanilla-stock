@@ -36,7 +36,10 @@ const common = () => {
     const selectedWarehouse = computed(() => store.state.auth.warehouse);
     const allWarehouses = computed(() => store.state.auth.all_warehouses);
     const frontAppSetting = computed(() => store.state.front.appSetting);
-    const frontWarehouse = computed(() => window.config.frontStoreWarehouse)
+    const frontWarehouse = computed(() => {
+        // return find(allWarehouses.value, ['slug', route.params.warehouse]);
+        return window.config.frontStoreWarehouse;
+    });
 
     onMounted(() => {
         if (route.meta && route.meta.orderType) {

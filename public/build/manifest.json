@@ -1,5 +1,5 @@
 {
-  "_vendor-f6e1d56c.js": {
+  "_vendor-2f9b4e38.js": {
     "css": [
       "assets/vendor-dcfd1035.css"
     ],
@@ -8,12 +8,12 @@
       "node_modules/dompurify/dist/purify.es.js",
       "node_modules/canvg/lib/index.es.js"
     ],
-    "file": "assets/vendor-f6e1d56c.js"
+    "file": "assets/vendor-2f9b4e38.js"
   },
   "node_modules/canvg/lib/index.es.js": {
-    "file": "assets/index.es-4fa53519.js",
+    "file": "assets/index.es-62621d37.js",
     "imports": [
-      "_vendor-f6e1d56c.js"
+      "_vendor-2f9b4e38.js"
     ],
     "isDynamicEntry": true,
     "src": "node_modules/canvg/lib/index.es.js"
@@ -29,12 +29,12 @@
     "src": "node_modules/html2canvas/dist/html2canvas.esm.js"
   },
   "resources/js/app.css": {
-    "file": "assets/app-e1c34bc5.css",
+    "file": "assets/app-ce66fb6b.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-e1c34bc5.css"
+      "assets/app-ce66fb6b.css"
     ],
     "dynamicImports": [
       "resources/js/common/layouts/Admin.vue",
@@ -48,9 +48,9 @@
       "resources/js/common/layouts/Admin.vue",
       "resources/js/common/layouts/Admin.vue"
     ],
-    "file": "assets/app-8502908c.js",
+    "file": "assets/app-98e8c7d8.js",
     "imports": [
-      "_vendor-f6e1d56c.js"
+      "_vendor-2f9b4e38.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"
@@ -63,10 +63,10 @@
     "css": [
       "assets/Admin-14aea5fe.css"
     ],
-    "file": "assets/Admin-7c60ed9d.js",
+    "file": "assets/Admin-9a1253b1.js",
     "imports": [
       "resources/js/app.js",
-      "_vendor-f6e1d56c.js"
+      "_vendor-2f9b4e38.js"
     ],
     "isDynamicEntry": true,
     "src": "resources/js/common/layouts/Admin.vue"

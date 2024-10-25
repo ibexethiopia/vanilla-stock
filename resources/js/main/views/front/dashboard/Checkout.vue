@@ -297,10 +297,7 @@ export default defineComponent({
                             store.commit("front/addCartItems", []);
                             router.push({
                                 name: "front.checkout.success",
-                                params: {
-                                    uniqueId: res.unique_id,
-                                    warehouse: frontWarehouse.value.slug,
-                                },
+                     
                             });
                         },
                     });

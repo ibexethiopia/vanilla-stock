@@ -5,7 +5,6 @@
                 <img :src="currentProduct.image_url" class="img-fit" />
             </a>
         </div>
-        <pre>{{ product }}</pre>
         <div class="product-bottom">
             <div>
                 <span class="product-category">{{ currentProduct.category.name }}</span>

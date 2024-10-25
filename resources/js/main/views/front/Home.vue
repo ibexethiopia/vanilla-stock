@@ -168,7 +168,7 @@
     </div>
 </template>
 <script>
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { defineComponent, ref, onMounted, watch ,computed} from "vue";
 import {
     RightOutlined,
     RightCircleOutlined,
@@ -188,7 +188,9 @@ export default defineComponent({
         CategoryHeader,
     },
     setup() {
-        const { frontWarehouse } = common();
+        const frontWarehouse = computed(() => {
+        return window.config.frontStoreWarehouse;
+    });
         const route = useRoute();
         const frontSettings = ref({});
         const frontProductCards = ref([]);

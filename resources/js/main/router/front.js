@@ -73,7 +73,7 @@ export default [
                 }
             },
             {
-                path: '/store/checkout-success/:uniqueId',
+                path: '/store/checkout-success',
                 component: CheckoutSuccess,
                 name: 'front.checkout.success',
                 meta: {
