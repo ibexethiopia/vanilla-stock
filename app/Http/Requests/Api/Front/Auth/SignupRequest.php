@@ -27,9 +27,10 @@ class SignupRequest extends FormRequest
      */
     public function rules()
     {
-        $storeSlug = $this->warehouse;
-        $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
-        $company = Company::find($warehouse->company_id);
+        // $storeSlug = $this->warehouse;
+        // $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
+        $company = Company::first();
+
 
         return [
             'name' => 'required',

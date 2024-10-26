@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Log;
 use Nwidart\Modules\Facades\Module;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -1059,35 +1060,67 @@ class Common
         // For Warehouse
         $warehousePath = request()->path();
         $warehousePathArray = $warehousePath != '' ? explode('/', $warehousePath) : [];
-        if ($warehousePathArray && $warehousePathArray[0] == 'store') {
-            $warehouseSlug = $warehousePathArray && $warehousePathArray[1] != '' ? $warehousePathArray[1] : '';
-            $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)
-                ->where('slug', $warehouseSlug)
-                ->first();
-            $warehouseCompany = Company::find($frontWarehouse->company_id);
-            $settings = FrontWebsiteSettings::withoutGlobalScope(CompanyScope::class)
-                ->withoutGlobalScope('current_warehouse')
-                ->where('warehouse_id', $frontWarehouse->id)->first();
-            $loadingLogo = $frontWarehouse->logo_url;
-            $currency = Currency::withoutGlobalScope(CompanyScope::class)->find($warehouseCompany->currency_id);
-        } else {
-            $frontWarehouse = null;
-            $warehouseCompany = null;
-            $settings = null;
-
-            // Logo
-            if (app_type() == 'saas') {
-                $company = Company::withoutGlobalScope('company')
-                    ->where('is_global', 1)
+    
+        if (isset($warehousePathArray[0]) && $warehousePathArray[0] == 'store') {
+            // Safely check if $warehousePathArray[1] exists
+            $warehouseSlug = isset($warehousePathArray[1]) ? $warehousePathArray[1] : '';
+    
+            if ($warehouseSlug != '') {
+                $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)
+                    ->where('slug', $warehouseSlug)
                     ->first();
-            } else {
-                $company = Company::first();
             }
-
-            $loadingLogo = $company->light_logo_url;
-            $currency = Currency::withoutGlobalScope(CompanyScope::class)->find($company->currency_id);
+    
+            // If no warehouse found by slug, get the first available warehouse
+            if (empty($frontWarehouse)) {
+                $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->first();
+            }
+    
+            if ($frontWarehouse) {
+                $warehouseCompany = Company::find($frontWarehouse->company_id);
+                $settings = FrontWebsiteSettings::withoutGlobalScope(CompanyScope::class)
+                    ->withoutGlobalScope('current_warehouse')
+                    ->where('warehouse_id', $frontWarehouse->id)
+                    ->first();
+                $loadingLogo = $frontWarehouse->logo_url;
+                $currency = Currency::withoutGlobalScope(CompanyScope::class)
+                    ->find($warehouseCompany->currency_id);
+            } else {
+                // Handle case where no warehouse exists
+                $warehouseCompany = null;
+                $settings = null;
+                $loadingLogo = null;
+                $currency = null;
+            }
+        } else {
+            // Fallback to the first warehouse if no warehouse path is detected
+            $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->first();
+    
+            if ($frontWarehouse) {
+                $warehouseCompany = Company::find($frontWarehouse->company_id);
+                $settings = FrontWebsiteSettings::withoutGlobalScope(CompanyScope::class)
+                    ->withoutGlobalScope('current_warehouse')
+                    ->where('warehouse_id', $frontWarehouse->id)
+                    ->first();
+                $loadingLogo = $frontWarehouse->logo_url;
+                $currency = Currency::withoutGlobalScope(CompanyScope::class)
+                    ->find($warehouseCompany->currency_id);
+            } else {
+                // Fallback logo and currency handling
+                if (app_type() == 'saas') {
+                    $company = Company::withoutGlobalScope('company')
+                        ->where('is_global', 1)
+                        ->first();
+                } else {
+                    $company = Company::first();
+                }
+    
+                $loadingLogo = $company->light_logo_url;
+                $currency = Currency::withoutGlobalScope(CompanyScope::class)
+                    ->find($company->currency_id);
+            }
         }
-
+    Log::info(json_encode($frontWarehouse));
         return [
             'warehouse' => $frontWarehouse,
             'company' => $warehouseCompany,

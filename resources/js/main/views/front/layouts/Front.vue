@@ -55,40 +55,7 @@
                     <a-row type="flex" justify="center">
                         <a-col :span="20">
                             <a-row>
-                                <div class="subheader-menu-lists">
-                                    <a-space
-                                        v-if="
-                                            frontAppSetting &&
-                                            frontAppSetting.pages_widget
-                                        "
-                                    >
-                                        <!-- <a-dropdown
-											class="subheader-menu"
-											overlayClassName="top-dropdown-box"
-										>
-											<AppstoreOutlined
-												:style="{
-													fontSize: '24px',
-													verticalAlign: 'middle',
-												}"
-											/>
-											<template #overlay>
-												<LeftSidebarMenu />
-											</template>
-										</a-dropdown> -->
-                                        <a
-                                            v-for="(
-                                                item, index
-                                            ) in frontAppSetting.pages_widget"
-                                            :key="index"
-                                            class="subheader-menu ml-25"
-                                            :href="item.value"
-                                            target="_blank"
-                                        >
-                                            {{ item.title }}
-                                        </a>
-                                    </a-space>
-                                </div>
+
                             </a-row>
                         </a-col>
                     </a-row>

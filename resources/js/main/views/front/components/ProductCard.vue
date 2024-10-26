@@ -138,6 +138,7 @@ import { message } from "ant-design-vue";
 import { filter, forEach } from "lodash-es";
 import cart from "../../../../common/composable/cart";
 import { getSalesPriceWithTax } from "../../../../common/scripts/functions";
+import products from "../../../router/products";
 
 export default {
     props: ["product", "currency"],

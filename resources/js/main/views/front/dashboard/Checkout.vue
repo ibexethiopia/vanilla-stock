@@ -7,7 +7,7 @@
                         <router-link
                             :to="{
                                 name: 'front.homepage',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.home") }}
@@ -17,7 +17,7 @@
                         <router-link
                             :to="{
                                 name: 'front.dashboard',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.dashboard") }}
@@ -27,7 +27,7 @@
                         <router-link
                             :to="{
                                 name: 'front.orders',
-                                params: { warehouse: frontWarehouse.slug },
+                                // params: { warehouse: frontWarehouse.slug },
                             }"
                         >
                             {{ $t("front.my_orders") }}
@@ -99,10 +99,10 @@
                                                 <router-link
                                                     :to="{
                                                         name: 'front.homepage',
-                                                        params: {
-                                                            warehouse:
-                                                                frontWarehouse.slug,
-                                                        },
+                                                        // params: {
+                                                        //     warehouse:
+                                                        //         frontWarehouse.slug,
+                                                        // },
                                                     }"
                                                 >
                                                     <RollbackOutlined />
@@ -297,10 +297,7 @@ export default defineComponent({
                             store.commit("front/addCartItems", []);
                             router.push({
                                 name: "front.checkout.success",
-                                params: {
-                                    uniqueId: res.unique_id,
-                                    warehouse: frontWarehouse.value.slug,
-                                },
+                     
                             });
                         },
                     });

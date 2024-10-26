@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use Examyou\RestAPI\ApiResponse;
 use Examyou\RestAPI\Exceptions\ApiException;
 use Illuminate\Http\Request;
+use Log;
 
 class HomePageController extends ApiBaseController
 {
@@ -69,14 +70,14 @@ class HomePageController extends ApiBaseController
 
     public function login(LoginRequest $request)
     {
-        $storeSlug = $request->warehouse;
-        $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
+        // $storeSlug = $request->warehouse;
+        // $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
 
-        if (!$warehouse) {
-            throw new ApiException("Not a valid warehouse");
-        }
+        // if (!$warehouse) {
+        //     throw new ApiException("Not a valid warehouse");
+        // }
 
-        $company = Company::find($warehouse->company_id);
+        $company = Company::first();
 
         $credentials = [
             'email' =>  $request->email,
@@ -103,8 +104,8 @@ class HomePageController extends ApiBaseController
 
     public function signup(SignupRequest $request)
     {
-        $storeSlug = $request->warehouse;
-        $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->where('slug', $storeSlug)->first();
+  
+        $warehouse = Warehouse::select('id', 'company_id')->withoutGlobalScope(CompanyScope::class)->first();
 
         if (!$warehouse) {
             throw new ApiException("Not a valid warehouse");
@@ -221,5 +222,10 @@ class HomePageController extends ApiBaseController
         return ApiResponse::make('Data Fetched', [
             'category' => $category
         ]);
+    }
+
+    public function warehouses(Request $request){
+        $warehouses = Warehouse::all();
+        return ApiResponse::make('Data Fetched', ['warehouses'=>$warehouses]);
     }
 }

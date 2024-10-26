@@ -140,7 +140,7 @@ export default defineComponent({
             if (isLoggedIn.value) {
                 router.push({
                     name: "front.checkout",
-                    params: { warehouse: frontWarehouse.value.slug },
+                    // params: { warehouse: frontWarehouse.value.slug },
                 });
             } else {
                 emit("openLoginModal");
