@@ -29,12 +29,12 @@
     "src": "node_modules/html2canvas/dist/html2canvas.esm.js"
   },
   "resources/js/app.css": {
-    "file": "assets/app-ce66fb6b.css",
+    "file": "assets/app-767bd24a.css",
     "src": "resources/js/app.css"
   },
   "resources/js/app.js": {
     "css": [
-      "assets/app-ce66fb6b.css"
+      "assets/app-767bd24a.css"
     ],
     "dynamicImports": [
       "resources/js/common/layouts/Admin.vue",
@@ -48,7 +48,7 @@
       "resources/js/common/layouts/Admin.vue",
       "resources/js/common/layouts/Admin.vue"
     ],
-    "file": "assets/app-98e8c7d8.js",
+    "file": "assets/app-a9cbea9f.js",
     "imports": [
       "_vendor-2f9b4e38.js"
     ],
@@ -63,7 +63,7 @@
     "css": [
       "assets/Admin-14aea5fe.css"
     ],
-    "file": "assets/Admin-9a1253b1.js",
+    "file": "assets/Admin-3ee5944d.js",
     "imports": [
       "resources/js/app.js",
       "_vendor-2f9b4e38.js"
