@@ -13,6 +13,7 @@ const DARK_THEME = 'dark_theme';
 const ACTIVE_MODULES = 'active_modules';
 const CSS_SETTINGS = 'css_settings';
 const SELECTED_WAREHOUSE = 'selected_warehouse';
+const FRONT_WAREHOUSE = 'front_selected_warehouse';
 const ALL_WAREHOUSES = 'all_warehouses';
 const ALL_FRONT_WAREHOUSES = 'all_front_warehouses';
 const ADD_MENUS = 'add_menus';
@@ -45,6 +46,7 @@ export default {
         return {
             user: getJSONFromLocalStorage(AUTH_USER),
             warehouse: getJSONFromLocalStorage(SELECTED_WAREHOUSE),
+            front_warehouse: getJSONFromLocalStorage(FRONT_WAREHOUSE) || window.config.frontStoreWarehouse,
             all_warehouses: getJSONFromLocalStorage(ALL_WAREHOUSES) || [],
             all_front_warehouses: getJSONFromLocalStorage(ALL_FRONT_WAREHOUSES) || [],
             allLangs: getJSONFromLocalStorage(ALL_LANGS) || [],
@@ -78,6 +80,10 @@ export default {
         updateWarehouse(state, warehouse) {
             state.warehouse = warehouse;
             window.localStorage.setItem(SELECTED_WAREHOUSE, JSON.stringify(warehouse));
+        },
+        updateFrontWarehouse(state, warehouse) {
+            state.front_warehouse = warehouse;
+            window.localStorage.setItem(FRONT_WAREHOUSE, JSON.stringify(warehouse));
         },
         updateAllWarehouses(state, warehouses) {
             state.all_warehouses = warehouses;
@@ -291,6 +297,12 @@ export default {
             else {
                 return moment(state.expires).isAfter(moment());
             }
+        },
+        frontWarehouse:(state)=>{
+            if(state.front_warehouse === null || state.token === ''){
+                return window.config.frontStoreWarehouse
+            }
+            return state.front_warehouse;
         }
     }
 }
