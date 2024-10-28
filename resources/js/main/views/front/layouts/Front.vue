@@ -15,17 +15,29 @@
                             <LeftSidebar />
 
                             <router-link
-                                :to="{
-                                    name: 'front.homepage',
-                                    params: { warehouse: frontWarehouse.slug },
-                                }"
+                                :to="{ name: 'front.homepage' }"
+                                class="logo-link"
                             >
-                                <img
-                                    :style="{
-                                        width: innerWidth >= 768 ? '150px' : '110px',
-                                    }"
-                                    :src="frontWarehouse.dark_logo_url"
-                                />
+                                <div class="logo-container">
+                                    <img
+                                        :style="{
+                                            width: innerWidth >= 768 ? '150px' : '110px',
+                                            maxHeight:'50px'
+                                        }"
+                                        :src="frontWarehouse.dark_logo_url"
+                                        alt="Warehouse Logo"
+                                    />
+                                    <span
+                                        :style="{
+                                            fontSize: innerWidth >= 768 ? '20px' : '16px',
+                                            fontWeight: 'bold',
+                                            color: '#fff',
+                                            marginLeft: '10px'
+                                        }"
+                                    >
+                                        {{ frontWarehouse.name }}
+                                    </span>
+                                </div>
                             </router-link>
                         </a-col>
                         <a-col v-if="innerWidth >= 768" :md="12" :lg="12" :xl="12">
@@ -55,7 +67,7 @@
                     <a-row type="flex" justify="center">
                         <a-col :span="20">
                             <a-row>
-
+                                <!-- Additional Subheader Content -->
                             </a-row>
                         </a-col>
                     </a-row>
@@ -73,8 +85,9 @@
         ></a-result>
     </div>
 </template>
+
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
 import { useStore } from "vuex";
 import { DownOutlined, MenuOutlined, AppstoreOutlined } from "@ant-design/icons-vue";
 import common from "../../../../common/composable/common";
@@ -83,7 +96,6 @@ import Footer from "./Footer.vue";
 import CheckoutDrawer from "../components/CheckoutDrawer.vue";
 import Login from "../components/Login.vue";
 import LeftSidebar from "./LeftSidebar.vue";
-import LeftSidebarMenu from "./LeftSidebarMenu.vue";
 
 export default defineComponent({
     components: {
@@ -95,11 +107,13 @@ export default defineComponent({
         CheckoutDrawer,
         Login,
         LeftSidebar,
-        LeftSidebarMenu,
     },
     setup() {
         const store = useStore();
-        const { frontWarehouse, frontAppSetting } = common();
+        const { frontAppSetting } = common();
+        const frontWarehouse = computed(() => {
+            return store.getters["auth/frontWarehouse"];
+        });
         const searchValue = ref("");
         const loginModalVisible = ref(false);
 
@@ -118,51 +132,16 @@ export default defineComponent({
             loginModalClosed,
             loginModalVisible,
             frontWarehouse,
-
             innerWidth: window.innerWidth,
-
-            openKeys: ref([]),
-            selectedKeys: ref([]),
         };
     },
 });
 </script>
+
 <style lang="less" scoped>
-.ant-carousel :deep(.slick-arrow.custom-slick-arrow) {
-    width: 25px;
-    height: 25px;
-    font-size: 25px;
-    color: #fff;
-    background-color: rgba(31, 45, 61, 0.11);
-    opacity: 0.3;
-    z-index: 1;
-}
-.ant-carousel :deep(.custom-slick-arrow:before) {
-    display: none;
-}
-.ant-carousel :deep(.custom-slick-arrow:hover) {
-    opacity: 0.5;
-}
-
-.subheader {
-    border-bottom: 1px solid #e5e7eb;
-
-    .subheader-menu-lists {
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    .subheader-menu {
-        font-size: 16px;
-        font-weight: 500;
-        color: rgba(0, 0, 0, 0.85);
-    }
-}
-
-.top-dropdown-box {
-    .ant-dropdown-content {
-        margin-top: 50px;
-    }
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
 .no-online-store-container {
@@ -174,4 +153,5 @@ export default defineComponent({
     justify-content: center;
     background: #f8f8ff;
 }
+
 </style>

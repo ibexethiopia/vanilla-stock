@@ -28,6 +28,8 @@ async function bootstrap() {
     store.dispatch("auth/updateAllWarehouses");
     store.commit("auth/updateActiveModules", window.config.modules);
     store.dispatch("auth/updateVisibleSubscriptionModules");
+    store.commit("auth/updateFrontWarehouse",window.config.frontStoreWarehouse);
+
 
     const app = createApp(App);
 

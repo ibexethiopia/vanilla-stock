@@ -1,14 +1,10 @@
 <template>
     <div class="bg-white">
         <div id="warehouse-container">
-    <label for="warehouse-select">Select Warehouse:</label>
-    <a-select
-      v-model:value="selectedWarehouseSlug"
-      placeholder="Select Warehouse"
-      :options="warehouseOptions"
-      @change="changeWarehouse"
-    ></a-select>
-  </div>
+            <label for="warehouse-select">Select Warehouse:</label>
+            <a-select v-model:value="selectedWarehouseSlug" placeholder="Select Warehouse" :options="warehouseOptions"
+                @change="changeWarehouse"></a-select>
+        </div>
 
 
 
@@ -168,7 +164,7 @@
     </div>
 </template>
 <script>
-import { defineComponent, ref, onMounted, watch ,computed} from "vue";
+import { defineComponent, ref, onMounted, watch, computed } from "vue";
 import {
     RightOutlined,
     RightCircleOutlined,
@@ -178,7 +174,7 @@ import { useRoute } from "vue-router";
 import ProductCard from "./components/ProductCard.vue";
 import CategoryHeader from "./includes/CategoryHeader.vue";
 import common from "../../../common/composable/common";
-
+import { useStore } from "vuex";
 export default defineComponent({
     components: {
         RightOutlined,
@@ -188,9 +184,11 @@ export default defineComponent({
         CategoryHeader,
     },
     setup() {
+        const store = useStore();
+
         const frontWarehouse = computed(() => {
-        return window.config.frontStoreWarehouse;
-    });
+            return store.getters["auth/frontWarehouse"];
+        });
         const route = useRoute();
         const frontSettings = ref({});
         const frontProductCards = ref([]);
@@ -238,6 +236,8 @@ export default defineComponent({
             window.config.frontStoreWarehouse = allWarehouses.value.find(
                 (warehouse) => warehouse.slug === selectedWarehouseSlug.value
             );
+            store.commit("auth/updateFrontWarehouse", window.config.frontStoreWarehouse);
+
         };
 
         return {
@@ -269,51 +269,52 @@ export default defineComponent({
 .featured-categories .ant-list-item-meta-title {
     margin-top: 6px;
 }
+
 /* Container styling */
 #warehouse-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 12px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  max-width: 400px;
-  margin: 20px auto;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Label styling */
 #warehouse-container label {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
 }
 
 /* a-select styling */
 #warehouse-container .ant-select {
-  width: 100%;
+    width: 100%;
 }
 
 #warehouse-container .ant-select-selector {
-  height: 40px !important;
-  border-radius: 6px !important;
-  border-color: #bbb !important;
-  padding: 0 12px !important;
+    height: 40px !important;
+    border-radius: 6px !important;
+    border-color: #bbb !important;
+    padding: 0 12px !important;
 }
 
 #warehouse-container .ant-select-selector:hover {
-  border-color: #40a9ff !important; /* Hover color */
+    border-color: #40a9ff !important;
+    /* Hover color */
 }
 
 #warehouse-container .ant-select-selection-placeholder {
-  color: #888 !important;
+    color: #888 !important;
 }
 
 #warehouse-container .ant-select-focused .ant-select-selector {
-  border-color: #40a9ff !important;
-  box-shadow: 0 0 4px rgba(64, 169, 255, 0.4) !important;
+    border-color: #40a9ff !important;
+    box-shadow: 0 0 4px rgba(64, 169, 255, 0.4) !important;
 }
-
 </style>
