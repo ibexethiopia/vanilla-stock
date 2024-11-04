@@ -48,7 +48,7 @@
       "resources/js/common/layouts/Admin.vue",
       "resources/js/common/layouts/Admin.vue"
     ],
-    "file": "assets/app-a9cbea9f.js",
+    "file": "assets/app-9eb4c693.js",
     "imports": [
       "_vendor-2f9b4e38.js"
     ],
@@ -63,7 +63,7 @@
     "css": [
       "assets/Admin-14aea5fe.css"
     ],
-    "file": "assets/Admin-3ee5944d.js",
+    "file": "assets/Admin-c7b81338.js",
     "imports": [
       "resources/js/app.js",
       "_vendor-2f9b4e38.js"
