@@ -456,7 +456,6 @@
                         name="purchase_price"
                         :help="rules.purchase_price ? rules.purchase_price.message : null"
                         :validateStatus="rules.purchase_price ? 'error' : null"
-                        class="required"
                     >
                         <a-input-number
                             v-model:value="formData.purchase_price"

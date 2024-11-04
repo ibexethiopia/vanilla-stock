@@ -12,6 +12,7 @@ use App\Models\Unit;
 use App\Models\Warehouse;
 use Examyou\RestAPI\Exceptions\ApiException;
 use Illuminate\Support\Facades\DB;
+use Log;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\ToArray;
 use Illuminate\Support\Str;
@@ -28,7 +29,7 @@ class ProductImport implements ToArray, WithHeadingRow
                 if (
                     !array_key_exists('name', $product) || !array_key_exists('barcode_symbology', $product) || !array_key_exists('item_code', $product) || !array_key_exists('description', $product) ||
                     !array_key_exists('category', $product) || !array_key_exists('brand', $product) || !array_key_exists('unit', $product) || !array_key_exists('tax', $product) ||
-                    !array_key_exists('mrp', $product) || !array_key_exists('purchase_price', $product) || !array_key_exists('sales_price', $product) || !array_key_exists('purchase_tax_type', $product) ||
+                   !array_key_exists('purchase_price', $product) || !array_key_exists('sales_price', $product) || !array_key_exists('purchase_tax_type', $product) ||
                     !array_key_exists('sales_tax_type', $product) || !array_key_exists('stock_quantitiy_alert', $product) || !array_key_exists('opening_stock', $product) || !array_key_exists('opening_stock_date', $product) ||
                     !array_key_exists('wholesale_price', $product) || !array_key_exists('wholesale_quantity', $product)
                 ) {
@@ -110,7 +111,11 @@ class ProductImport implements ToArray, WithHeadingRow
                 $allWarehouses = Warehouse::select('id')->get();
 
                 if (array_key_exists('warehouse', $product)) {
+                    Log::info($product["warehouse"]);
                     $warehouse = Warehouse::where('name', $product['warehouse'])->first();
+                    if (!$warehouse) {   
+                        throw new ApiException('Invalid Warehouse name');
+                       }
                     $currentWarehouse = warehouse();
 
                     $createdWarehouseId = $warehouse && $warehouse->id ? $warehouse->id : $currentWarehouse->id;
@@ -132,26 +137,47 @@ class ProductImport implements ToArray, WithHeadingRow
                 $newProduct->user_id = $user->id;
                 $newProduct->save();
 
-
                 foreach ($allWarehouses as $allWarehouse) {
                     $newProductDetails = new ProductDetails();
                     $newProductDetails->warehouse_id = $allWarehouse->id;
                     $newProductDetails->product_id = $newProduct->id;
-                    $newProductDetails->tax_id = $taxName == "" ? null : $tax->id;
-                    $newProductDetails->purchase_tax_type = $purchaseTaxType != '' ? lcfirst($purchaseTaxType) : 'exclusive';
-                    $newProductDetails->sales_tax_type = $salesTaxType != '' ? lcfirst($salesTaxType) : 'exclusive';
-                    $newProductDetails->mrp = trim($product['mrp']);
-                    $newProductDetails->purchase_price = trim($product['purchase_price']);
-                    $newProductDetails->sales_price = trim($product['sales_price']);
-                    $newProductDetails->stock_quantitiy_alert = $stockQuantityAlert != "" ? (int) $stockQuantityAlert : null;
-                    $newProductDetails->opening_stock = $openingStock != "" ? (int) $openingStock : null;
-                    $newProductDetails->opening_stock_date = $openingStockDate != "" ? $openingStockDate : null;
-                    $newProductDetails->wholesale_price = $wholesalePrice != "" ? $wholesalePrice : null;
-                    $newProductDetails->wholesale_quantity = $wholesaleQuantity == "" ? null : $wholesaleQuantity;
+                
+                    if ($allWarehouse->id == $createdWarehouseId) {
+                        // Set fields only for the specified warehouse
+                        $newProductDetails->tax_id = $taxName == "" ? null : $tax->id;
+                        $newProductDetails->purchase_tax_type = $purchaseTaxType != '' ? lcfirst($purchaseTaxType) : 'exclusive';
+                        $newProductDetails->sales_tax_type = $salesTaxType != '' ? lcfirst($salesTaxType) : 'exclusive';
+                        $newProductDetails->mrp = trim($product['mrp'] ?? 0);
+                        $newProductDetails->purchase_price = trim($product['purchase_price']);
+                        $newProductDetails->sales_price = trim($product['sales_price']);
+                        $newProductDetails->stock_quantitiy_alert = $stockQuantityAlert != "" ? (int) $stockQuantityAlert : null;
+                        $newProductDetails->opening_stock = $openingStock != "" ? (int) $openingStock : null;
+                        $newProductDetails->opening_stock_date = $openingStockDate != "" ? $openingStockDate : null;
+                        $newProductDetails->wholesale_price = $wholesalePrice != "" ? $wholesalePrice : null;
+                        $newProductDetails->wholesale_quantity = $wholesaleQuantity == "" ? null : $wholesaleQuantity;
+                    } else {
+                        // Set fields to null for other warehouses
+                        $newProductDetails->tax_id = $taxName == "" ? null : $tax->id;
+                        $newProductDetails->purchase_tax_type = $purchaseTaxType != '' ? lcfirst($purchaseTaxType) : 'exclusive';
+                        $newProductDetails->sales_tax_type = $salesTaxType != '' ? lcfirst($salesTaxType) : 'exclusive';
+                        $newProductDetails->mrp = trim($product['mrp'] ?? 0);
+                        $newProductDetails->purchase_price = trim($product['purchase_price']);
+                        $newProductDetails->sales_price = trim($product['sales_price']);
+                        $newProductDetails->stock_quantitiy_alert = null;
+                        $newProductDetails->opening_stock =  null;
+                        $newProductDetails->opening_stock_date = $openingStockDate != "" ? $openingStockDate : null;
+                        $newProductDetails->wholesale_price =  null;
+                        $newProductDetails->wholesale_quantity = null;
+                    }
+                
                     $newProductDetails->save();
-
-                    Common::recalculateOrderStock($newProductDetails->warehouse_id, $newProduct->id);
+                
+                    // Only recalculate stock if this is the specified warehouse
+                    if ($allWarehouse->id == $createdWarehouseId) {
+                        Common::recalculateOrderStock($newProductDetails->warehouse_id, $newProduct->id);
+                    }
                 }
+                
             }
         });
     }
