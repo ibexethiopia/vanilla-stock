@@ -52,7 +52,7 @@ class UpdateRequest extends FormRequest
         ];
 
         if($this->product_type == 'single') {
-            $rules['purchase_price'] = 'required|gt:0';
+            $rules['purchase_price'] = 'nullable';
             $rules['sales_price'] = 'required||gt:0|gte:purchase_price';
         }
 
