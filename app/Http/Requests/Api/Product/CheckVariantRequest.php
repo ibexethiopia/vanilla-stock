@@ -29,7 +29,7 @@ class CheckVariantRequest extends FormRequest
         $company = company();
 
 		$rules = [
-			'purchase_price'    => 'required|gt:0',
+			'purchase_price'    => 'nullable',
 			'sales_price'    => 'required||gt:0|gte:purchase_price',
             'opening_stock'    => 'required'
 		];
