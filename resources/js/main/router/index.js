@@ -47,7 +47,7 @@ const router = createRouter({
         ...FrontRoutes,
         {
             path: '',
-            redirect: '/store'
+            redirect: '/admin/login'
         },
         ...WebsiteSetupRoutes,
         ...ProductRoutes,
