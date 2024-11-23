@@ -90,52 +90,52 @@ class UsersTableSeeder extends Seeder
 
         $allWarehouses = Warehouse::select('id')->pluck('id');
 
-        // StaffMembers
-        User::factory()->count((int)$count)->create()->each(function ($user) use ($faker, $adminRole, $salesmanRole, $stockManagerRole, $allWarehouses) {
+        // // StaffMembers
+        // User::factory()->count((int)$count)->create()->each(function ($user) use ($faker, $adminRole, $salesmanRole, $stockManagerRole, $allWarehouses) {
 
-            $roleId = $faker->randomElement([$adminRole->id, $salesmanRole->id, $stockManagerRole->id]);
+        //     $roleId = $faker->randomElement([$adminRole->id, $salesmanRole->id, $stockManagerRole->id]);
 
-            $user->role_id = $roleId;
-            $user->warehouse_id = $faker->randomElement($allWarehouses);
-            $user->save();
+        //     $user->role_id = $roleId;
+        //     $user->warehouse_id = $faker->randomElement($allWarehouses);
+        //     $user->save();
 
-            $userWarehouse = new UserWarehouse();
-            $userWarehouse->user_id = $user->id;
-            $userWarehouse->warehouse_id = $user->warehouse_id;
-            $userWarehouse->save();
+        //     $userWarehouse = new UserWarehouse();
+        //     $userWarehouse->user_id = $user->id;
+        //     $userWarehouse->warehouse_id = $user->warehouse_id;
+        //     $userWarehouse->save();
 
-            // TODO - Add more warehouse
+        //     // TODO - Add more warehouse
 
-            // Assign Role
-            $user->attachRole($roleId);
-        });
+        //     // Assign Role
+        //     $user->attachRole($roleId);
+        // });
 
-        // Customers
-        Customer::factory()->count((int)$count)->create([
-            'warehouse_id' => $electroniflyWarehouse->id
-        ])->each(function ($user) use ($faker, $allWarehouses) {
-            foreach ($allWarehouses as $allWarehouse) {
-                UserDetails::factory()->create([
-                    'warehouse_id' => $allWarehouse,
-                    'user_id' => $user->id,
-                ]);
+        // // Customers
+        // Customer::factory()->count((int)$count)->create([
+        //     'warehouse_id' => $electroniflyWarehouse->id
+        // ])->each(function ($user) use ($faker, $allWarehouses) {
+        //     foreach ($allWarehouses as $allWarehouse) {
+        //         UserDetails::factory()->create([
+        //             'warehouse_id' => $allWarehouse,
+        //             'user_id' => $user->id,
+        //         ]);
 
-                Common::updateUserAmount($user->id, $allWarehouse);
-            }
-        });
+        //         Common::updateUserAmount($user->id, $allWarehouse);
+        //     }
+        // });
 
-        // Suppliers
-        Supplier::factory()->count((int)$count)->create([
-            'warehouse_id' => $electroniflyWarehouse->id
-        ])->each(function ($user) use ($faker, $allWarehouses) {
-            foreach ($allWarehouses as $allWarehouse) {
-                UserDetails::factory()->create([
-                    'warehouse_id' => $allWarehouse,
-                    'user_id' => $user->id,
-                ]);
+        // // Suppliers
+        // Supplier::factory()->count((int)$count)->create([
+        //     'warehouse_id' => $electroniflyWarehouse->id
+        // ])->each(function ($user) use ($faker, $allWarehouses) {
+        //     foreach ($allWarehouses as $allWarehouse) {
+        //         UserDetails::factory()->create([
+        //             'warehouse_id' => $allWarehouse,
+        //             'user_id' => $user->id,
+        //         ]);
 
-                Common::updateUserAmount($user->id, $allWarehouse);
-            }
-        });
+        //         Common::updateUserAmount($user->id, $allWarehouse);
+        //     }
+        // });
     }
 }

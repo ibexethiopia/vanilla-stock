@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
 
             // Common::createAllCompaniesWalkInCustomer();
 
-            $this->call(BrandsTableSeeder::class);
-            $this->call(CategoryTableSeeder::class);
+            // $this->call(BrandsTableSeeder::class);
+            // $this->call(CategoryTableSeeder::class);
             // $this->call(ProductTableSeeder::class);
             // $this->call(StockAdjustmentTableSeeder::class);
             // $this->call(OrdersTableSeeder::class);

@@ -31,7 +31,9 @@ use Examyou\RestAPI\ApiResponse;
 use Examyou\RestAPI\Exceptions\ApiException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth; // Ensure you import the Auth facade
+use App\Models\Token;
 
 class AuthController extends ApiBaseController
 {
@@ -197,6 +199,7 @@ class AuthController extends ApiBaseController
         $response['email_setting_verified'] = $this->emailSettingVerified();
         $response['visible_subscription_modules'] = Common::allVisibleSubscriptionModules();
 
+
         return ApiResponse::make('Loggged in successfull', $response);
     }
 
@@ -204,10 +207,16 @@ class AuthController extends ApiBaseController
     {
         $user = user();
 
+        Token::create([
+            'user_id'=>$user->id,
+            'token'=>$token,
+            "expires_in"=>Carbon::now()->addDays(10),
+        ]);     
+
         return [
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => Carbon::now()->addDays(180),
+            'expires_in' => Carbon::now()->addDays(10),
             'user' => $user
         ];
     }
@@ -271,7 +280,12 @@ class AuthController extends ApiBaseController
             $user->profile_image = $request->profile_image;
         }
         if ($request->password != '') {
+
             $user->password = $request->password;
+            $currentToken = $request->bearerToken();
+            Token::where('user_id', $user->id)
+            ->where('token', '!=', $currentToken) // Exclude the current token
+            ->delete();
         }
         $user->phone = $request->phone;
         $user->address = $request->address;
