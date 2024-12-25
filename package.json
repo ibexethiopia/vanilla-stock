@@ -16,7 +16,7 @@
         "lodash-es": "^4.17.21",
         "moment": "^2.29.1",
         "resolve-url-loader": "^4.0.0",
-        "vue": "^3.2.20",
+        "vue": "^3.5.13",
         "vue-barcode-reader": "^1.0.3",
         "vue-chart-3": "^0.5.8",
         "vue-i18n": "^9.2.0-beta.32",
@@ -32,7 +32,7 @@
     },
     "devDependencies": {
         "@originjs/vite-plugin-commonjs": "^1.0.3",
-        "@vitejs/plugin-vue": "^4.2.3",
+        "@vitejs/plugin-vue": "^4.6.2",
         "compression": "^1.7.4",
         "laravel-mix": "^6.0.34",
         "laravel-vite-plugin": "^0.7.8",
@@ -42,7 +42,7 @@
         "sass": "^1.43.3",
         "sass-loader": "^12.2.0",
         "unplugin-vue-components": "^0.25.1",
-        "vite": "^4.3.9",
+        "vite": "^4.5.5",
         "vue-loader": "^16.8.3",
         "vue-stripe-js": "^1.0.1"
     }

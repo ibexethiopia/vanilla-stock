@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use App\Models\Currency;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
@@ -31,12 +32,13 @@ class CurrencyTableSeeder extends Seeder
         $newCurrency->is_deletable = false;
         $newCurrency->save();
 
-        $rupeeCurrency = new Currency();
-        $rupeeCurrency->name = 'Rupee';
-        $rupeeCurrency->code = 'INR';
-        $rupeeCurrency->symbol = '₹';
-        $rupeeCurrency->position = 'front';
-        $rupeeCurrency->is_deletable = false;
-        $rupeeCurrency->save();
+        // $rupeeCurrency = new Currency();
+        // $rupeeCurrency->name = 'Rupee';
+        // $rupeeCurrency->code = 'INR';
+        // $rupeeCurrency->symbol = '₹';
+        // $rupeeCurrency->position = 'front';
+        // $rupeeCurrency->is_deletable = false;
+        // $rupeeCurrency->save();
+
     }
 }
