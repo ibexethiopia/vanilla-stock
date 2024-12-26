@@ -1,0 +1,49 @@
+name: Deploy Laravel to Shared Hosting
+
+on:
+  push:
+    branches:
+      - main # Change this to your deployment branch if different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Set up PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, intl, pdo, bcmath
+          coverage: none
+
+      # Install dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-dev --optimize-autoloader
+
+      # Build front-end assets (if using a frontend framework)
+      - name: Build Frontend
+        run: npm install && npm run build
+
+      # Upload files to shared hosting using FTP
+      - name: Deploy to Shared Hosting
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.womdesbdas.com # Replace with your FTP server
+          username: ${{ secrets.FTP_USERNAME }} # Store in GitHub Secrets
+          password: ${{ secrets.FTP_PASSWORD }} # Store in GitHub Secrets
+          local-dir: ./ # Local Laravel directory
+          server-dir: /home/womdeswk/stock.womdesbdas.com/public/
+          server-timeout: 120
+          transfer-mode: active
+          debug: true
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
