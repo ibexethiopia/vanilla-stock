@@ -960,36 +960,36 @@ class Common
 
     public static function assignCompanyForNonSaas($company)
     {
-        // DB::table('payment_modes')->update(['company_id' => $company->id]);
-        // DB::table('currencies')->update(['company_id' => $company->id]);
-        // DB::table('warehouses')->update(['company_id' => $company->id]);
-        // DB::table('users')->update(['company_id' => $company->id]);
-        // DB::table('roles')->update(['company_id' => $company->id]);
-        // DB::table('brands')->update(['company_id' => $company->id]);
-        // DB::table('categories')->update(['company_id' => $company->id]);
-        // DB::table('products')->update(['company_id' => $company->id]);
-        // DB::table('taxes')->update(['company_id' => $company->id]);
-        // DB::table('units')->update(['company_id' => $company->id]);
-        // DB::table('expense_categories')->update(['company_id' => $company->id]);
-        // DB::table('expenses')->update(['company_id' => $company->id]);
-        // DB::table('custom_fields')->update(['company_id' => $company->id]);
-        // DB::table('orders')->update(['company_id' => $company->id]);
-        // DB::table('payments')->update(['company_id' => $company->id]);
-        // DB::table('order_payments')->update(['company_id' => $company->id]);
-        // DB::table('warehouse_stocks')->update(['company_id' => $company->id]);
-        // DB::table('stock_history')->update(['company_id' => $company->id]);
-        // DB::table('stock_adjustments')->update(['company_id' => $company->id]);
-        // DB::table('settings')->update(['company_id' => $company->id]);
-        // DB::table('warehouse_history')->update(['company_id' => $company->id]);
-        // DB::table('order_shipping_address')->update(['company_id' => $company->id]);
-        // DB::table('user_address')->update(['company_id' => $company->id]);
-        // DB::table('front_product_cards')->update(['company_id' => $company->id]);
-        // DB::table('front_website_settings')->update(['company_id' => $company->id]);
-        // DB::table('settings')->update(['company_id' => $company->id]);
+        DB::table('payment_modes')->update(['company_id' => $company->id]);
+        DB::table('currencies')->update(['company_id' => $company->id]);
+        DB::table('warehouses')->update(['company_id' => $company->id]);
+        DB::table('users')->update(['company_id' => $company->id]);
+        DB::table('roles')->update(['company_id' => $company->id]);
+        DB::table('brands')->update(['company_id' => $company->id]);
+        DB::table('categories')->update(['company_id' => $company->id]);
+        DB::table('products')->update(['company_id' => $company->id]);
+        DB::table('taxes')->update(['company_id' => $company->id]);
+        DB::table('units')->update(['company_id' => $company->id]);
+        DB::table('expense_categories')->update(['company_id' => $company->id]);
+        DB::table('expenses')->update(['company_id' => $company->id]);
+        DB::table('custom_fields')->update(['company_id' => $company->id]);
+        DB::table('orders')->update(['company_id' => $company->id]);
+        DB::table('payments')->update(['company_id' => $company->id]);
+        DB::table('order_payments')->update(['company_id' => $company->id]);
+        DB::table('warehouse_stocks')->update(['company_id' => $company->id]);
+        DB::table('stock_history')->update(['company_id' => $company->id]);
+        DB::table('stock_adjustments')->update(['company_id' => $company->id]);
+        DB::table('settings')->update(['company_id' => $company->id]);
+        DB::table('warehouse_history')->update(['company_id' => $company->id]);
+        DB::table('order_shipping_address')->update(['company_id' => $company->id]);
+        DB::table('user_address')->update(['company_id' => $company->id]);
+        DB::table('front_product_cards')->update(['company_id' => $company->id]);
+        DB::table('front_website_settings')->update(['company_id' => $company->id]);
+        DB::table('settings')->update(['company_id' => $company->id]);
 
 
-        // $adminUser = User::where('company_id', $company->id)->where('role_id', 1)->first();
-        // $company->admin_id = $adminUser->id;
+        $adminUser = User::where('company_id', $company->id)->where('role_id', 1)->first();
+        $company->admin_id = $adminUser->id;
         // Setting Trial Plan
         if (app_type() == 'saas') {
             $trialPlan = SubscriptionPlan::where('default', 'trial')->first();
@@ -999,7 +999,7 @@ class Common
                 $company->licence_expire_on = Carbon::now()->addDays($trialPlan->duration)->format('Y-m-d');
             }
         }
-        // $company->save();
+        $company->save();
 
         // Insert records in settings table
         // For inital settings like email, storage

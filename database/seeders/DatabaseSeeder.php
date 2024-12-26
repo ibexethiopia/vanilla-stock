@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         DB::table('settings')->delete();
         DB::statement('ALTER TABLE settings AUTO_INCREMENT = 1');
 
-
+        // Common::assignCompanyForNonSaas($comp);
         $company = Company::get();
         foreach ($company as $comp) {
             Common::insertInitSettings($comp);
