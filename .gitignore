@@ -68,6 +68,8 @@ pnpm-lock.yaml
 /public/mix-manifest.json
 /public/hot
 !public/build/
+!public/build/manifest.json
+!public/build/assets/*
 
 
 # Ignore backup files and temp files
