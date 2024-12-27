@@ -75,13 +75,13 @@ class Common
                 'operator' => 'multiply',
                 'operator_value' => '1',
             ],
-            'kilogram' =>  [
+            'kilogram' => [
                 'name' => 'kilogram',
                 'short_name' => 'kg',
                 'operator' => 'multiply',
                 'operator_value' => '1',
             ],
-            'liter' =>  [
+            'liter' => [
                 'name' => 'liter',
                 'short_name' => 'l',
                 'operator' => 'multiply',
@@ -98,7 +98,7 @@ class Common
             $allUnitArray[$allBaseUnit->id][] = [
                 'id' => $allBaseUnit->id,
                 'name' => $allBaseUnit->name,
-                'operator'  => $allBaseUnit->operator,
+                'operator' => $allBaseUnit->operator,
                 'operator_value' => $allBaseUnit->operator_value,
                 'short_name' => $allBaseUnit->short_name
             ];
@@ -108,7 +108,7 @@ class Common
                 $allUnitArray[$allBaseUnit->id][] = [
                     'id' => $allUnitCollection->id,
                     'name' => $allUnitCollection->name,
-                    'operator'  => $allUnitCollection->operator,
+                    'operator' => $allUnitCollection->operator,
                     'operator_value' => $allUnitCollection->operator_value,
                     'short_name' => $allUnitCollection->short_name
                 ];
@@ -209,7 +209,7 @@ class Common
                 ->delete();
 
             if ($action == "add_edit") {
-                $warehouseHistory =  new WarehouseHistory();
+                $warehouseHistory = new WarehouseHistory();
                 $warehouseHistory->date = $typeObject->order_date;
                 $warehouseHistory->order_id = $typeObject->id;
                 $warehouseHistory->warehouse_id = $typeObject->warehouse_id;
@@ -226,7 +226,7 @@ class Common
                 $orderItems = $typeObject->items;
 
                 foreach ($orderItems as $orderItem) {
-                    $warehouseHistory =  new WarehouseHistory();
+                    $warehouseHistory = new WarehouseHistory();
                     $warehouseHistory->date = $typeObject->order_date;
                     $warehouseHistory->order_id = $typeObject->id;
                     $warehouseHistory->order_item_id = $orderItem->id;
@@ -254,7 +254,7 @@ class Common
                 ->delete();
 
             if ($action == "add_edit") {
-                $warehouseHistory =  new WarehouseHistory();
+                $warehouseHistory = new WarehouseHistory();
                 $warehouseHistory->date = $typeObject->date;
                 $warehouseHistory->payment_id = $typeObject->id;
                 $warehouseHistory->warehouse_id = $typeObject->warehouse_id;
@@ -269,7 +269,7 @@ class Common
 
                 $paymentOrders = OrderPayment::where('payment_id', $typeObject->id)->get();
                 foreach ($paymentOrders as $paymentOrder) {
-                    $warehouseHistory =  new WarehouseHistory();
+                    $warehouseHistory = new WarehouseHistory();
                     $warehouseHistory->date = $typeObject->date;
                     $warehouseHistory->payment_id = $typeObject->id;
                     $warehouseHistory->warehouse_id = $typeObject->warehouse_id;
@@ -353,9 +353,9 @@ class Common
         $folderPath = self::getFolderPath($folderString);
 
         if ($request->hasFile('image') || $request->hasFile('file')) {
-            $largeLogo  = $request->hasFile('image') ? $request->file('image') : $request->file('file');
+            $largeLogo = $request->hasFile('image') ? $request->file('image') : $request->file('file');
 
-            $fileName   = $folder . '_' . strtolower(Str::random(20)) . '.' . $largeLogo->getClientOriginalExtension();
+            $fileName = $folder . '_' . strtolower(Str::random(20)) . '.' . $largeLogo->getClientOriginalExtension();
             $largeLogo->storePubliclyAs($folderPath, $fileName);
         }
 
@@ -381,7 +381,7 @@ class Common
 
             return Storage::url($path);
         } else {
-            $path =  'uploads/' . $folderPath . '/' . $fileName;
+            $path = 'uploads/' . $folderPath . '/' . $fileName;
 
             return asset($path);
         }
@@ -424,7 +424,7 @@ class Common
     {
         $purchaseOrderCount = self::calculateOrderCount('purchases', $warehouseId, $productId);
         $purchaseReturnsOrderCount = self::calculateOrderCount('purchase-returns', $warehouseId, $productId);
-        $salesOrderCount = self::calculateOrderCount('sales',  $warehouseId, $productId);
+        $salesOrderCount = self::calculateOrderCount('sales', $warehouseId, $productId);
         $salesReturnsOrderCount = self::calculateOrderCount('sales-returns', $warehouseId, $productId);
 
         $addStockAdjustment = StockAdjustment::where('warehouse_id', '=', $warehouseId)
@@ -728,7 +728,7 @@ class Common
 
     public static function calculateTotalUsers($companyId, $update = false)
     {
-        $totalUsers =  StaffMember::withoutGlobalScope(CompanyScope::class)
+        $totalUsers = StaffMember::withoutGlobalScope(CompanyScope::class)
             ->where('company_id', $companyId)
             ->count('id');
 
@@ -988,7 +988,7 @@ class Common
         DB::table('settings')->update(['company_id' => $company->id]);
 
 
-        $adminUser = User::first();
+        $adminUser = User::where('company_id', $company->id)->where('role_id', 1)->first();
         $company->admin_id = $adminUser->id;
         // Setting Trial Plan
         if (app_type() == 'saas') {
@@ -1060,22 +1060,22 @@ class Common
         // For Warehouse
         $warehousePath = request()->path();
         $warehousePathArray = $warehousePath != '' ? explode('/', $warehousePath) : [];
-    
+
         if (isset($warehousePathArray[0]) && $warehousePathArray[0] == 'store') {
             // Safely check if $warehousePathArray[1] exists
             $warehouseSlug = isset($warehousePathArray[1]) ? $warehousePathArray[1] : '';
-    
+
             if ($warehouseSlug != '') {
                 $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)
                     ->where('slug', $warehouseSlug)
                     ->first();
             }
-    
+
             // If no warehouse found by slug, get the first available warehouse
             if (empty($frontWarehouse)) {
                 $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->first();
             }
-    
+
             if ($frontWarehouse) {
                 $warehouseCompany = Company::find($frontWarehouse->company_id);
                 $settings = FrontWebsiteSettings::withoutGlobalScope(CompanyScope::class)
@@ -1095,7 +1095,7 @@ class Common
         } else {
             // Fallback to the first warehouse if no warehouse path is detected
             $frontWarehouse = Warehouse::withoutGlobalScope(CompanyScope::class)->first();
-    
+
             if ($frontWarehouse) {
                 $warehouseCompany = Company::find($frontWarehouse->company_id);
                 $settings = FrontWebsiteSettings::withoutGlobalScope(CompanyScope::class)
@@ -1114,13 +1114,13 @@ class Common
                 } else {
                     $company = Company::first();
                 }
-    
+
                 $loadingLogo = $company->light_logo_url;
                 $currency = Currency::withoutGlobalScope(CompanyScope::class)
                     ->find($company->currency_id);
             }
         }
-    Log::info(json_encode($frontWarehouse));
+        Log::info(json_encode($frontWarehouse));
         return [
             'warehouse' => $frontWarehouse,
             'company' => $warehouseCompany,
