@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }} # Store in GitHub Secrets
           password: ${{ secrets.FTP_PASSWORD }} # Store in GitHub Secrets
           local-dir: ./ # Local Laravel directory
-          server-dir: home/womdeswk/stock.womdesbdas.com/
+          server-dir: /home/womdeswk/stock.womdesbdas.com/
           server-timeout: 120
           transfer-mode: active
           debug: true
